@@ -12,6 +12,13 @@ public class Flight {
         return flightCode;
     }
 
+    public Airport getDepart(){
+        return this.depart;
+    }
+    public Airport getArrive(){
+        return this.arrive;
+    }
+
     public boolean isInternational(){
         if(depart.getAirportCountry().equalsIgnoreCase(arrive.getAirportCountry())){
             return false;

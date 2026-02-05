@@ -22,6 +22,9 @@ public class Airport{
     public String getAirportCode(){
         return airportCode;
     }
+    public String getCity(){
+        return city;
+    }
 
 
 
