@@ -1,0 +1,10 @@
+John,85
+Amy,49
+Liam,78
+Sophia,90
+Noah,33
+Emma,81
+Olivia,90
+Ethan,73
+Mia,40
+Lucas,84
