@@ -3,7 +3,9 @@ import java.util.ArrayList;
 public class InClassBox {
     public static void main(String[] args) {
         ArrayList<Box> boxes = new ArrayList<>();
+        Box myBox = new Box(20);
         boxes.add(new Box(10));
+        boxes.add(myBox);
 
         System.out.println("Initial list: " + boxes);
 
@@ -12,6 +14,7 @@ public class InClassBox {
         // If we comment out equals(), this fails to find it (-1) because it looks for the exact
         // same object in memory
         System.out.println("Index of new Box(10): " + boxes.indexOf(new Box(10)));
+        System.out.println("Index of myBox: " + boxes.indexOf(myBox));
 
         // remove() also relies on .equals()
         // If equals() is implemented, this removes the box with size 10
