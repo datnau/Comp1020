@@ -25,6 +25,4 @@ public class Community{
     public String toString() {
         return "Community{name='" + communityName + "', region='" + region + "'}";
     }
-
-
 }

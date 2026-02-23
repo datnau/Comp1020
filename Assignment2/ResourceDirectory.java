@@ -30,8 +30,9 @@ public class ResourceDirectory {
 
     public ArrayList<Resource> findByCommunity(String communityName){
         ArrayList<Resource> newResources = new ArrayList<>();
+        Community key = new Community(communityName, " ");
         for(int i = 0; i < this.allResources.size();i++){
-            if(this.allResources.get(i).getCommunity().getCommunityName().equalsIgnoreCase(communityName)){
+            if(this.allResources.get(i).matchesCommunity(key)){
                 newResources.add(allResources.get(i));
             }
         }
@@ -42,7 +43,7 @@ public class ResourceDirectory {
     public ArrayList<Resource> findByType(String type){
         ArrayList<Resource> newResources = new ArrayList<>();
         for(int i = 0; i < this.allResources.size();i++){
-            if(this.allResources.get(i).getResourceType().equalsIgnoreCase(type)){
+            if(this.allResources.get(i).matchesType(type)){
                 newResources.add(allResources.get(i));
             }
         }
@@ -50,7 +51,6 @@ public class ResourceDirectory {
     }
     public ArrayList<Resource> findByKeyword(String keyword) {
     ArrayList<Resource> result = new ArrayList<>();
-
     for (int i = 0; i < allResources.size(); i++) {
         Resource r = allResources.get(i);
         if (r.matchesKeyword(keyword)) {

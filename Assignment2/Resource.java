@@ -17,33 +17,45 @@ public class Resource {
         return this.resourceType;
     }
 
+
     public Community getCommunity(){
         return this.community;
     }
 
+
     public String getResourceName(){
         return this.resourceName;
     }
+
+
+
     public String getContact(){
         return this.contact;
     }
 
+
     public boolean matchesCommunity(Community other){
        return this.community.getCommunityName().equalsIgnoreCase(other.getCommunityName());
     }
-     public boolean matchesType(String type){
+
+
+    public boolean matchesType(String type){
         if(this.resourceType.equalsIgnoreCase(type)){
             return true;
         }
         return false;
     }
+    
+
     public boolean matchesKeyword(String keyword) {
-    if (keyword == null) return false;
-
+    if (keyword == null){
+        return false;
+    }
     String key = keyword.toLowerCase();
-
-    return (resourceName != null && resourceName.toLowerCase().contains(key))
-        || (contact != null && contact.toLowerCase().contains(key));
+    if(resourceName != null && resourceName.toLowerCase().contains(key) || contact != null && contact.toLowerCase().contains(key)){
+        return true;
+    }
+    return false;
     }
 
 
@@ -57,9 +69,7 @@ public class Resource {
       
 
     public String toString() {
-        return "Resource{name='" + resourceName + "', type='" + resourceType
-                + "', community=" + community
-                + ", contact='" + contact + "'}";
+        return "Resource{name='" + resourceName + "', type='" + resourceType + "', community=" + community + ", contact='" + contact + "'}";
     }
 
 }
