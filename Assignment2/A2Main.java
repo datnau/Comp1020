@@ -110,6 +110,10 @@ public class A2Main {
             System.out.println("Please enter a number.");
             continue;
         }
+        if (option != 1 && option != 2 && option != 3 && option != 4 && option != 5 && option != 6) {
+            System.out.println("Invalid option. Please choose 1, 2, 3, 4, 5, or 6.");
+            continue;
+        }
 
         if(option == 1){
             ArrayList<Resource> all = directory.getAll();
@@ -208,22 +212,11 @@ public class A2Main {
            saveDirectory(directory, outputFilename);
            System.out.println("Saved. End of program!!!");
            break;
+           
         }
-        sc.close();
         
-
       }
+      sc.close();
 
-    }
-
- 
-
-    public static void main(String[] args) {
-        if (args.length < 2) {
-            System.out.println("ERROR: expected input and output filenames");
-            System.exit(1);
-        }
-        ResourceDirectory dir = loadDirectory(args[0]);
-        saveDirectory(dir, args[1]);
     }
 }
