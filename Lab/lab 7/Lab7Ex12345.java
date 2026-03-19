@@ -134,7 +134,6 @@ public class Lab7Ex12345 {
     }
     return errors;
 }
-
    public static boolean linearSearch(int[] arr, int key){
     for(int i = 0; i < arr.length; i++){
         if(arr[i] == key){
@@ -143,7 +142,6 @@ public class Lab7Ex12345 {
     }
     return false;
    }
-
   // Used in exercises 2-5:
   
   public static void verify(int expected, int result, String action) {
