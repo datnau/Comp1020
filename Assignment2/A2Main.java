@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class A2Main {
 
-    private static final String INPUT_FILE = "resource.txt";
+    private static final String INPUT_FILE = "resources.txt";
     private static final String OUTPUT_FILE = "resources-output.txt";
     public static Community createCommunity(String name, String region) {
         return new Community(name, region);
@@ -53,11 +53,14 @@ public class A2Main {
             }
         } catch (FileNotFoundException e) {
             System.out.println("ERROR: file not found: " + filename);
+            throw new RuntimeException("Missing input file: " + filename);
         } catch (IOException e) {
             System.out.println("ERROR: cannot read file: " + filename);
+            throw new RuntimeException("I/O error reading: " + filename);
         }
         if (!sawNonBlank) {
             System.out.println("ERROR: file is blank: " + filename);
+            throw new RuntimeException("Blank input file: " + filename);
         }
         return dir;
     }
@@ -65,26 +68,40 @@ public class A2Main {
 
 
     public static void saveDirectory(ResourceDirectory directory, String filename) {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filename))) {
+        try (PrintWriter pw = new PrintWriter(new FileWriter(filename))) {
             ArrayList<Resource> all = directory.getAll();
 
             for (int i = 0; i < all.size(); i++) {
                 Resource r = all.get(i);
                 Community c = r.getCommunity();
 
-                String resourceName = r.getResourceName();
-                String type = r.getResourceType();
-                String communityName = c.getCommunityName();
-                String region = c.getRegion();
-                String contact = r.getContact();
+            String resourceName = r.getResourceName();
+            if (resourceName == null) resourceName = "";
+            resourceName = resourceName.trim();
 
-                bw.write(resourceName + "|" + type + "|" + communityName + "|" + region + "|" + contact);
-                bw.newLine();
+            String type = r.getResourceType();
+            if (type == null) type = "";
+            type = type.trim();
+
+            String communityName = c.getCommunityName();
+            if (communityName == null) communityName = "";
+            communityName = communityName.trim();
+
+            String region = c.getRegion();
+            if (region == null) region = "";
+            region = region.trim();
+
+            String contact = r.getContact();
+            if (contact == null) contact = "";
+            contact = contact.trim();
+
+                pw.println(resourceName + "|" + type + "|" + communityName + "|" + region + "|" + contact);
             }
         } catch (IOException e) {
             System.out.println("ERROR: cannot write file: " + filename);
-            System.exit(1);
+            throw new RuntimeException("Save failed: " + filename, e);
         }
+
     }
 
 
@@ -101,6 +118,9 @@ public class A2Main {
         System.out.println("6 - Save and quit");
         System.out.println("What would you like to do (1-6)?");
         
+        if (!sc.hasNextLine()){
+            return;
+        } 
         String line = sc.nextLine().trim();
         int option;
         try{
@@ -119,6 +139,7 @@ public class A2Main {
             ArrayList<Resource> all = directory.getAll();
             if(all.size() == 0){
                 System.out.println("No resources found!!!!!");
+                continue;
             }
             for(int i = 0 ; i < all.size();i++){
                 System.out.println(all.get(i));
@@ -126,10 +147,9 @@ public class A2Main {
             }
             
         }
-
-
         if(option == 2){
             System.out.println("Enter a community name: ");
+            if (!sc.hasNextLine()) return;
             String input = sc.nextLine().trim();
             if(input.isEmpty()){
                 continue;
@@ -146,6 +166,7 @@ public class A2Main {
 
         if(option == 3){
             System.out.println("Enter a type: ");
+            if (!sc.hasNextLine()) return;
             String input = sc.nextLine().trim();
             if(input.isEmpty()){
                 continue;
@@ -162,6 +183,7 @@ public class A2Main {
 
         if(option == 4){
             System.out.println("Enter a keyword: ");
+            if (!sc.hasNextLine()) return;
             String input = sc.nextLine().trim();
             if(input.isEmpty()){
                 continue;
@@ -176,23 +198,49 @@ public class A2Main {
             
         }
         if(option == 5){
-            System.out.println("Enter a resource name: ");
-            String resourceName = sc.nextLine().trim();
+            System.out.println("Enter resource info (comma-separated 5 fields) OR enter resource name only:");
+            if (!sc.hasNextLine()) return;
+            String first = sc.nextLine().trim();
 
-            System.out.println("Enter a resource type: ");
-            String resourceType= sc.nextLine().trim();
+            if (first.isEmpty()) {
+                System.out.println("ERROR: Blank inputs are not allowed. Resource not added.");
+                continue;
+            }
 
-            System.out.println("Enter a community name: ");
-            String communityName = sc.nextLine().trim();
+            String resourceName, resourceType, communityName, region, contact;
 
-            System.out.println("Enter a region: ");
-            String region = sc.nextLine().trim();
-            
-            System.out.println("Enter a contact info: ");
-            String contact = sc.nextLine().trim();
+            if (first.contains(",")) {
+                String[] parts = first.split(",", -1);
+                if (parts.length != 5) {
+                    System.out.println("ERROR: Invalid comma-separated format. Need 5 fields.");
+                    continue;
+                }
+                resourceName = parts[0].trim();
+                resourceType = parts[1].trim();
+                communityName = parts[2].trim();
+                region = parts[3].trim();
+                contact = parts[4].trim();
+            } else {
+                resourceName = first;
 
-            if(resourceName.isEmpty() || resourceType.isEmpty() || communityName.isEmpty() || region.isEmpty() || contact.isEmpty()){
-                System.out.println("One of inputs is EMPTY!!!");
+                System.out.println("Enter a resource type: ");
+                if (!sc.hasNextLine()) return;
+                resourceType = sc.nextLine().trim();
+
+                System.out.println("Enter a community name: ");
+                if (!sc.hasNextLine()) return;
+                communityName = sc.nextLine().trim();
+
+                System.out.println("Enter a region: ");
+                if (!sc.hasNextLine()) return;
+                region = sc.nextLine().trim();
+
+                System.out.println("Enter a contact info: ");
+                if (!sc.hasNextLine()) return;
+                contact = sc.nextLine().trim();
+            }
+            if (resourceName.isEmpty() || resourceType.isEmpty() || communityName.isEmpty() || region.isEmpty() || contact.isEmpty()) {
+                System.out.println("ERROR: Blank inputs are not allowed. Resource not added.");
                 continue;
             }
 
@@ -204,6 +252,7 @@ public class A2Main {
                 System.out.println("Resource already exists (same name and community). Not added.");
             } else {
                 System.out.println("Resource added successfully.");
+                System.out.println(newResource);
             }
             
 
@@ -216,7 +265,17 @@ public class A2Main {
         }
         
       }
-      sc.close();
-
     }
+    public static void main(String[] args) {
+    try {
+        ResourceDirectory dir = loadDirectory(INPUT_FILE);
+        if (dir.size() == 0) {
+            System.out.println("ERROR: No valid resources found in " + INPUT_FILE);
+            return;
+        }
+        runMenu(dir, OUTPUT_FILE);
+    } catch (RuntimeException e) {
+        return;
+    }
+}
 }

@@ -20,37 +20,68 @@ public class ResourceDirectory {
         return allResources.size();
     }
 
-    public ArrayList<Resource> getAll(){
-        ArrayList<Resource> newResources = new ArrayList<>();
-        for(int i = 0; i < this.allResources.size(); i++){
-            newResources.add(this.allResources.get(i));
+    public ArrayList<Resource> getAll() {
+        ArrayList<Resource> copy = new ArrayList<>();
+        for (int i = 0; i < allResources.size(); i++) {
+            copy.add(allResources.get(i));
         }
-        return newResources;
+        return copy;
     }
 
     public ArrayList<Resource> findByCommunity(String communityName){
-        ArrayList<Resource> newResources = new ArrayList<>();
-        Community key = new Community(communityName, " ");
-        for(int i = 0; i < this.allResources.size();i++){
-            if(this.allResources.get(i).matchesCommunity(key)){
-                newResources.add(allResources.get(i));
-            }
-        }
-        return newResources;
+    ArrayList<Resource> newResources = new ArrayList<>();
 
+    if (communityName == null) {
+        return newResources;
     }
+
+    communityName = communityName.trim();
+    if (communityName.isEmpty()) {
+        return newResources;
+    }
+
+    Community key = new Community(communityName, "");
+
+    for(int i = 0; i < this.allResources.size(); i++){
+        if(this.allResources.get(i).matchesCommunity(key)){
+            newResources.add(allResources.get(i));
+        }
+    }
+
+    return newResources;
+}
 
     public ArrayList<Resource> findByType(String type){
-        ArrayList<Resource> newResources = new ArrayList<>();
-        for(int i = 0; i < this.allResources.size();i++){
-            if(this.allResources.get(i).matchesType(type)){
-                newResources.add(allResources.get(i));
-            }
-        }
+    ArrayList<Resource> newResources = new ArrayList<>();
+
+    if (type == null) {
         return newResources;
     }
+
+    type = type.trim();
+    if (type.isEmpty()) {
+        return newResources;
+    }
+
+    for(int i = 0; i < this.allResources.size(); i++){
+        if(this.allResources.get(i).matchesType(type)){
+            newResources.add(allResources.get(i));
+        }
+    }
+    return newResources;
+}
     public ArrayList<Resource> findByKeyword(String keyword) {
     ArrayList<Resource> result = new ArrayList<>();
+
+    if (keyword == null) {
+        return result;
+    }
+
+    keyword = keyword.trim();
+    if (keyword.isEmpty()) {
+        return result;
+    }
+
     for (int i = 0; i < allResources.size(); i++) {
         Resource r = allResources.get(i);
         if (r.matchesKeyword(keyword)) {
@@ -59,11 +90,11 @@ public class ResourceDirectory {
     }
 
     return result;
-    }
+}
 
 
     public String toString() {
-        String s = "ResourceDirectory{size=" + allResources.size() + "}\n";
+        String s = "ResourceDirectory {size=" + allResources.size() + "}\n";
         for (int i = 0; i < allResources.size(); i++) {
             s += "  " + allResources.get(i) + "\n";
         }
