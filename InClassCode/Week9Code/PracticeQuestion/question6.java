@@ -1,6 +1,5 @@
 public class question6 {
     public static void main(String[] args) {
-        
     Object [] data = { 2, "Dog", 3, "Cat"};
     int result = 0;
 
