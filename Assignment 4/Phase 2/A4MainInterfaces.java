@@ -8,14 +8,8 @@ public class A4MainInterfaces {
         System.out.printf("Combat resolved: Defender (%s) took %d damage from Attacker (%s)\n",d.getName(),a.getAttackPower(),a.getName());
     }
 
-
-
-
-
-
-
-
     public static void runAdventureLoop(Scanner scanner, Player player, Wall wall, Trap Trap){
+        
         while(true){
             System.out.println("\nEnter command (attack, step, status, quit): ");
             Scanner sc = new Scanner(System.in);
@@ -60,7 +54,7 @@ public class A4MainInterfaces {
                 if(cmt.equalsIgnoreCase("quit")){
                     break;
                 }
-           
+            sc.close();
         }
         
 

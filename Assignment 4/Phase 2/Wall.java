@@ -1,11 +1,8 @@
 public class Wall implements Defender {
     private int health;
     //Constructor
-    public Wall(int health){
-        if(health <= 0){
-            this.health = 0;
-        }
-        this.health = health;
+    public Wall(int health) {
+    this.health = health;
     }
     public void takeDamage(int amount){
         if (amount> 0) {
@@ -29,4 +26,8 @@ public class Wall implements Defender {
     public String getName(){
         return "Wall";
     }
+    public String toString() {
+        return "Wall[health=" + health + "]";
+    }
+    
 }
