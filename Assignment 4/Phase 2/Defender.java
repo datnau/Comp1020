@@ -1,4 +1,4 @@
-interface Defender {
+public interface Defender {
     void takeDamage(int amount);
     int getHealth();
     boolean isAlive();

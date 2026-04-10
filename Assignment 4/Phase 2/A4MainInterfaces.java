@@ -8,25 +8,27 @@ public class A4MainInterfaces {
         System.out.printf("Combat resolved: Defender (%s) took %d damage from Attacker (%s)\n",d.getName(),a.getAttackPower(),a.getName());
     }
 
-    public static void runAdventureLoop(Scanner scanner, Player player, Wall wall, Trap Trap){
+    public static void runAdventureLoop(Scanner sc, Player player, Wall wall, Trap Trap){
         
-        while(true){
+        while(player.isAlive() && sc.hasNextLine()){
             System.out.println("\nEnter command (attack, step, status, quit): ");
-            Scanner sc = new Scanner(System.in);
-                String cmt = sc.nextLine();
+
+            String cmt = sc.nextLine();
+
+                
                 if(!cmt.equalsIgnoreCase("attack") && !cmt.equalsIgnoreCase("step") && !cmt.equalsIgnoreCase("status") && !cmt.equalsIgnoreCase("quit")){
-                    System.out.println("Unknown command");
+                    System.out.println("Unknown command.");
                     
                 }
                 //attack
                 if(cmt.equalsIgnoreCase("attack")){
-                    if(wall.isAlive() == false){
-                         System.out.println("\nThe wall is already destroyed!");
+                    if(!wall.isAlive()){
+                         System.out.println("The wall is already destroyed!");
                     }
                     if(wall.isAlive()){
                         resolveCombat(player, wall);
-                        if(wall.getHealth() <= 0){
-                            System.out.println("\nThe wall has been destroyed!");
+                        if(!wall.isAlive()){
+                            System.out.println("The wall has been destroyed!");
                         }
                     }
                     
@@ -38,7 +40,7 @@ public class A4MainInterfaces {
                     if(player.isAlive()){
                         resolveCombat(Trap, player);
                     }
-                    if(player.getHealth() <= 0){
+                    if(!player.isAlive()){
                         System.out.println("The player has stepped on a trap and died!");
                         break;
                     }
@@ -54,10 +56,7 @@ public class A4MainInterfaces {
                 if(cmt.equalsIgnoreCase("quit")){
                     break;
                 }
-            sc.close();
         }
-        
-
     }
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);

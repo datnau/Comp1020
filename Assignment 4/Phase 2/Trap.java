@@ -12,5 +12,8 @@ public class Trap implements Attacker{
     public String getName(){
         return "Trap";
     }
+    public String toString() {
+        return "Trap[attackPower=" + attackPower + "]";
+    }
 
 }

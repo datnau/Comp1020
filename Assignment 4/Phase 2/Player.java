@@ -29,6 +29,9 @@ public class Player implements Attacker, Defender{
     public int getHealth(){
         return health;
     }
+    public String toString() {
+        return "Player[health=" + health + ", attackPower=" + attackPower + "]";
+    }
 
 }    
 
